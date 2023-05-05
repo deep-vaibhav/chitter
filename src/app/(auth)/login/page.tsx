@@ -13,7 +13,7 @@ const Login: FC<LoginProps> = () => {
   const loginWithGoogle = async () => {
     try {
       setIsLoading(true);
-      signIn("google");
+      await signIn("google");
     } catch (error) {
       // TODO : add toast message
     } finally {
@@ -40,15 +40,9 @@ const Login: FC<LoginProps> = () => {
             className="max-w-sm max-auto"
             onClick={loginWithGoogle}
           >
-            {isLoading ? (
-              "Logging you in..."
-            ) : (
-              <>
-                {" "}
-                <SVGIcons.GoogleIcon size={24} />
-                <span className="ml-2">Continue with Google</span>
-              </>
-            )}
+            {!isLoading && <SVGIcons.GoogleIcon size={24} />}
+
+            <span className="ml-2">Continue with Google</span>
           </Button>
         </div>
       </div>
