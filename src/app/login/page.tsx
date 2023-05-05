@@ -3,13 +3,23 @@
 import Button from "@/components/ui/Button";
 import { SVGIcons } from "@/components/ui/Icons";
 import { FC, useState } from "react";
+import { signIn } from "next-auth/react";
 
 interface LoginProps {}
 
 const Login: FC<LoginProps> = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const loginWithGoogle = async () => {};
+  const loginWithGoogle = async () => {
+    try {
+      setIsLoading(true);
+      signIn("google");
+    } catch (error) {
+      // TODO : add toast message
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -30,8 +40,15 @@ const Login: FC<LoginProps> = () => {
             className="max-w-sm max-auto"
             onClick={loginWithGoogle}
           >
-            <SVGIcons.GoogleIcon size={24} />
-            <span className="ml-2">Continue with Google</span>
+            {isLoading ? (
+              "Logging you in..."
+            ) : (
+              <>
+                {" "}
+                <SVGIcons.GoogleIcon size={24} />
+                <span className="ml-2">Continue with Google</span>
+              </>
+            )}
           </Button>
         </div>
       </div>
