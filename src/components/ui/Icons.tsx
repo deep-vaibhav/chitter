@@ -1,3 +1,5 @@
+import { UserPlus } from "lucide-react";
+
 export const SVGIcons = {
   GoogleIcon: ({ size = 48 }) => (
     <svg
@@ -24,4 +26,7 @@ export const SVGIcons = {
       />
     </svg>
   ),
+  UserPlus,
 };
+
+export type Icon = keyof typeof SVGIcons;
