@@ -32,8 +32,9 @@ export const getFriendsByUserId = async (userId: string) => {
 
   const friends = await Promise.all(
     friendIds.map(async (id) => {
-      const friend = (await fetchRedis("get", `user:${id}`)) as IUser;
-      return friend;
+      const friend = (await fetchRedis("get", `user:${id}`)) as string;
+      const parsedFriend = JSON.parse(friend) as IUser;
+      return parsedFriend;
     })
   );
 

@@ -1,4 +1,5 @@
 import FriendRequestSidebarOption from "@/components/FriendRequestSidebarOption";
+import SidebarChatList from "@/components/SidebarChatList";
 import SignOutButton from "@/components/SignOutButton";
 import { Icon, SVGIcons } from "@/components/ui/Icons";
 import { fetchRedis, getFriendsByUserId } from "@/helpers/redis";
@@ -59,7 +60,7 @@ const Layout = async ({ children }: LayoutProps) => {
         <nav className="flex flex-1 flex-col">
           <ul role="list" className="flex flex-1 flex-col gap-y-7">
             <li>
-              <SidebarChatList />
+              <SidebarChatList sessionId={session.user.id} friends={friends} />
             </li>
             <li>
               <div className="text-xs font-semibold leading-6 text-gray-400">
@@ -84,14 +85,14 @@ const Layout = async ({ children }: LayoutProps) => {
                     </li>
                   );
                 })}
-              </ul>
-            </li>
 
-            <li className="-mx-2">
-              <FriendRequestSidebarOption
-                sessionId={session.user.id}
-                initialUnseenRequestCount={unseenRequestsCount}
-              />
+                <li>
+                  <FriendRequestSidebarOption
+                    sessionId={session.user.id}
+                    initialUnseenRequestCount={unseenRequestsCount}
+                  />
+                </li>
+              </ul>
             </li>
 
             <li className="-mx-6 mt-auto flex items-center">
