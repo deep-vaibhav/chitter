@@ -1,7 +1,7 @@
 import FriendRequestSidebarOption from "@/components/FriendRequestSidebarOption";
 import SignOutButton from "@/components/SignOutButton";
 import { Icon, SVGIcons } from "@/components/ui/Icons";
-import { fetchRedis } from "@/helpers/redis";
+import { fetchRedis, getFriendsByUserId } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
@@ -33,6 +33,8 @@ const Layout = async ({ children }: LayoutProps) => {
   const session = await getServerSession(authOptions);
   if (!session) notFound();
 
+  const friends = await getFriendsByUserId(session.user.id);
+
   // Since this is a server component, we can directly interact with the DB
   const unseenRequestsCount = (
     (await fetchRedis(
@@ -48,13 +50,17 @@ const Layout = async ({ children }: LayoutProps) => {
           chitter
         </Link>
 
-        <div className="text-xs font-semibold leading-6 text-gray-400">
-          Your chats
-        </div>
+        {friends.length > 0 ? (
+          <div className="text-xs font-semibold leading-6 text-gray-400">
+            Your chats
+          </div>
+        ) : null}
 
         <nav className="flex flex-1 flex-col">
           <ul role="list" className="flex flex-1 flex-col gap-y-7">
-            <li>// chats user has</li>
+            <li>
+              <SidebarChatList />
+            </li>
             <li>
               <div className="text-xs font-semibold leading-6 text-gray-400">
                 Overview
